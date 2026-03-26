@@ -25,7 +25,7 @@ document.getElementById('password').addEventListener('keypress', function(e) {
     if (e.key === 'Enter') login();
 });
 
-function loadProjects() {
+async function loadProjects() {
     const projects = JSON.parse(localStorage.getItem('projects') || '[]');
     const list = document.getElementById('projectList');
     const count = document.getElementById('count');
@@ -40,6 +40,8 @@ function loadProjects() {
     list.innerHTML = projects.map((project, index) => `
         <div class="project-item">
             <div>
+                ${project.logo ? `<img src="${project.logo}" style="width:40px;height:40px;border-radius:8px;vertical-align:middle;margin-right:10px;">` : ''}
+                ${project.img ? `<img src="${project.img}" style="width:80px;height:60px;border-radius:8px;vertical-align:middle;margin-right:10px;">` : ''}
                 <h4>${project.title}</h4>
                 <p>${project.desc}</p>
                 <small>Tech: ${project.tech ? project.tech.join(', ') : 'N/A'}</small>
@@ -54,16 +56,37 @@ function loadProjects() {
     `).join('');
 }
 
-document.getElementById('projectForm').addEventListener('submit', function(e) {
+document.getElementById('projectForm').addEventListener('submit', async function(e) {
     e.preventDefault();
     
     const project = {
         title: document.getElementById('title').value,
         desc: document.getElementById('desc').value,
-        img: document.getElementById('img').value || '',
         tech: document.getElementById('tech').value.split(',').map(t => t.trim()).filter(t => t),
-        link: document.getElementById('link').value || ''
-    };
+        link: document.getElementById('link').value || '',
+        id: Date.now(),
+        downloadUrl: document.getElementById('downloadUrl').value || ''
+    }; 
+    
+    // Handle screenshot
+    const screenshotFile = document.getElementById('screenshotFile').files[0];
+    if (screenshotFile) {
+        project.img = await new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result);
+            reader.readAsDataURL(screenshotFile);
+        });
+    }
+    
+    // Handle logo
+    const logoFile = document.getElementById('logoFile').files[0];
+    if (logoFile) {
+        project.logo = await new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result);
+            reader.readAsDataURL(logoFile);
+        });
+    }
     
     const projects = JSON.parse(localStorage.getItem('projects') || '[]');
     projects.push(project);
@@ -73,9 +96,9 @@ document.getElementById('projectForm').addEventListener('submit', function(e) {
     e.target.reset();
     
     // Refresh list
-    loadProjects();
+    await loadProjects();
     
-    alert('✅ Project berhasil ditambahkan!');
+    alert('✅ Project ditambahkan dengan gambar dari device!');
 });
 
 function deleteProject(index) {

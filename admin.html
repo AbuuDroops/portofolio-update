@@ -28,10 +28,15 @@
                     <form id="projectForm">
                         <input type="text" id="title" placeholder="Judul (Android RBAC App)" required>
                         <textarea id="desc" placeholder="Deskripsi project..." required></textarea>
-                        <input type="url" id="img" placeholder="URL Gambar (assets/screenshot.png)">
+                        <label>Gambar Screenshot:</label>
+                        <input type="file" id="screenshotFile" accept="image/*">
+                        <label>Logo:</label>
+                        <input type="file" id="logoFile" accept="image/*">
                         <input type="text" id="tech" placeholder="Tech: Kotlin,Firebase,UML">
-                        <input type="url" id="link" placeholder="Link GitHub/Live">
-                        <button type="submit"><i class="fas fa-save"></i> Simpan</button>
+<input type="url" id="link" placeholder="Website URL (optional)">
+                        <label>Download APK:</label>
+                        <input type="url" id="downloadUrl" placeholder="APK URL (optional)">
+                        <button type="submit"><i class="fas fa-save"></i> Simpan</button> 
                     </form>
                 </div>
 
