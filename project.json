@@ -1,0 +1,11 @@
+{
+  "projects": [
+    {
+      "title": "Android RBAC Reporting App",
+      "desc": "Aplikasi Android dengan Role-Based Access Control menggunakan Firebase Auth + Firestore. Dilengkapi UML ERD dan Sequence Diagram.",
+      "img": "assets/screenshot-android.png",
+      "tech": ["Kotlin", "Firebase", "UML", "ERD", "RBAC"],
+      "link": "https://github.com/yourusername/android-rbac-app"
+    }
+  ]
+}
